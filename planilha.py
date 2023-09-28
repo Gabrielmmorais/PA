@@ -1,4 +1,5 @@
 import gspread
+from gspread_formatting import *
 from gspread_formatting.dataframe import format_with_dataframe
 from gspread_formatting.dataframe import Color
 from google.oauth2.service_account import Credentials
@@ -48,16 +49,13 @@ def change_background_color(sheet):
     range_to_format = 'A2:U2'
     
     # Define the background color (black)
-    background_color = {
-        "red": 0,
-        "green": 0,
-        "blue": 0
-    }
-    
-    # Create a format request
-    format_request = {
-        "backgroundColor": background_color
-    }
-    
-    # Apply the format request to the range
-    sheet.format(range_to_format, format_request)
+    fmt = CellFormat(
+        backgroundColor=Color(0, 0, 0),
+        textFormat=TextFormat(bold=True, foregroundColor=Color(1, 1, 1)),
+        horizontalAlignment='CENTER'
+    )
+    fmt2 = CellFormat(
+        backgroundColor=Color(0, 0, 0),
+        textFormat=TextFormat(bold=True, fontSize=20, foregroundColor=Color(1, 1, 1))
+    )
+    format_cell_ranges(sheet, [(range_to_format, fmt), ('A1:U1', fmt2)])
